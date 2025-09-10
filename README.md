@@ -253,9 +253,9 @@ After the pipeline completes, the output directory will be organized differently
 ### Align Mode Tutorial
 Watch this video tutorial to see a complete walkthrough of running the pipeline in `align` mode:
 
-[![Align Mode Tutorial]()
+[![Align Mode Tutorial](RNA-seq align model.mp4)
 
 ### Quant Mode Tutorial  
 Watch this video tutorial to see a complete walkthrough of running the pipeline in `quant` mode:
 
-[![Quant Mode Tutorial]()
+[![Quant Mode Tutorial](RNA-seq quant model.mp4)
