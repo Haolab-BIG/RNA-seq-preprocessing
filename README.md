@@ -247,3 +247,14 @@ After the pipeline completes, the output directory will be organized differently
 ├── deg_results.txt                    # Differential expression gene list from DESeq2
 └── normalized_counts.csv              # Normalized counts matrix from DESeq2
 ```
+## Video Tutorials
+
+### Align Mode Tutorial
+Watch this video tutorial to see a complete walkthrough of running the pipeline in `align` mode:
+
+[![Align Mode Tutorial]()
+
+### Quant Mode Tutorial  
+Watch this video tutorial to see a complete walkthrough of running the pipeline in `quant` mode:
+
+[![Quant Mode Tutorial](RNA-seq quant model.mp4)
