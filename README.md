@@ -252,10 +252,10 @@ After the pipeline completes, the output directory will be organized differently
 
 ### Align Mode Tutorial
 Watch this video tutorial to see a complete walkthrough of running the pipeline in `align` mode:
-https://github.com/user-attachments/assets/a0f09a6c-deb9-4906-a15a-fe1e8c0d5a59
+(https://github.com/user-attachments/assets/a0f09a6c-deb9-4906-a15a-fe1e8c0d5a59)
 
 ### Quant Mode Tutorial  
 Watch this video tutorial to see a complete walkthrough of running the pipeline in `quant` mode:
-https://github.com/user-attachments/assets/e3e15f46-5251-450c-a166-ad40f19dd555
+(https://github.com/user-attachments/assets/e3e15f46-5251-450c-a166-ad40f19dd555)
 
 
