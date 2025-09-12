@@ -21,7 +21,7 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
 
 2.  **Singularity**: Must be installed on your system.
 
-    * **Installation on Ubuntu/Debian**:
+    * **Installation on Ubuntu 22.04**:
         You can follow the steps below to install Singularity and its dependencies. For other operating systems, please refer to the official installation guide: https://docs.sylabs.io/guides/3.0/user-guide/installation.html
 
         ```bash
