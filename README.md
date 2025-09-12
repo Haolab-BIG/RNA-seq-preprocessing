@@ -211,6 +211,18 @@ mkdir -p salmon_index
 singularity exec RNA.sif salmon index -t gencode.v46.transcripts.fa -i ./salmon_index -k 31
 ```
 
+##### Build STAR rRNA Index:
+
+```bash
+mkdir -p star_rrna_index
+singularity exec RNA.sif STAR --runThreadN 16 \
+     --runMode genomeGenerate \
+     --genomeDir ./star_rrna_index \
+     --genomeFastaFiles GRCh38.primary_assembly.genome.fa \
+     --sjdbGTFfile gencode.v46.rRNA.gtf \
+     --sjdbOverhang 100
+```
+
 ##### Create Transcript-to-Gene Map:
 
 ```bash
