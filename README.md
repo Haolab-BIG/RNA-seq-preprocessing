@@ -15,11 +15,43 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
 
 ## Requirements
 
-1.  **Singularity**: Must be installed on your system. Follow the installation guide at: https://docs.sylabs.io/guides/3.0/user-guide/installation.html
-2.  **Pipeline Files**:
-    -   `run_pipeline.sh`
-    -   `RNA.sif` (the Singularity container)
-3.  **Reference Data**: A directory containing all necessary reference files (STAR indices, Salmon index, GTF annotation, etc.).
+1.  **Recommended System Configuration**:
+    * 8-core CPU
+    * 64 GB RAM
+
+2.  **Singularity**: Must be installed on your system.
+
+    * **Installation on Ubuntu/Debian**:
+        You can follow the steps below to install Singularity and its dependencies. For other operating systems, please refer to the official installation guide: https://docs.sylabs.io/guides/3.0/user-guide/installation.html
+
+        ```bash
+        # Update and install dependencies
+        sudo apt-get update
+        sudo apt-get install -y \
+            build-essential \
+            libseccomp-dev \
+            pkg-config \
+            squashfs-tools \
+            cryptsetup \
+            curl wget git
+        sudo apt-get install -y libfuse3-dev
+
+        # Install the Go language environment
+        wget [https://go.dev/dl/go1.21.3.linux-amd64.tar.gz](https://go.dev/dl/go1.21.3.linux-amd64.tar.gz)
+        sudo tar -C /usr/local -xzvf go1.21.3.linux-amd64.tar.gz
+        rm go1.21.3.linux-amd64.tar.gz
+
+        # Configure Go environment variables
+        echo 'export GOPATH=${HOME}/go' >> ~/.bashrc
+        echo 'export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin' >> ~/.bashrc
+        source ~/.bashrc
+        ```
+
+3.  **Pipeline Files**:
+    * `run_pipeline.sh`
+    * `RNA.sif` (The Singularity container)
+
+4.  **Reference Data**: A directory containing all necessary reference files (e.g., STAR indices, Salmon index, GTF annotation, etc.).
 
 ## Setup
 
@@ -159,7 +191,8 @@ reference_data/
 ├── annotation.gtf
 ├── gencode.v46.transcripts.fa
 ├── t2g.tsv
-└── salmon_index/
+├── salmon_index/
+└── star_rrna_index/
 ```
 
 ## Running
