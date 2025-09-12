@@ -22,7 +22,6 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
 2.  **Singularity**: Must be installed on your system. Below are the detailed steps for installing on an Ubuntu 22.0.4 system. For other operating systems, please refer to the official installation guide: https://docs.sylabs.io/guides/3.0/user-guide/installation.html
 
     * **Step 1: Install System Dependencies**
-        These packages are required for building and running Singularity.
 
         ```bash
         # Update package lists and install dependencies
@@ -38,7 +37,6 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
         ```
 
     * **Step 2: Install Go Language**
-        Singularity is written in Go, so the Go toolchain is required to build it from source.
 
         ```bash
         # Download and install Go
@@ -53,7 +51,6 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
         ```
 
     * **Step 3: Download, Build, and Install Singularity**
-        This section downloads the Singularity source code, compiles it, and installs it on the system.
 
         ```bash
         # Note: The script navigates to /mnt/share/software. 
@@ -80,7 +77,6 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
         ```
 
     * **Step 4: Verify the Installation**
-        After installation, you can verify that Singularity is working correctly.
 
         ```bash
         # Check the installed version
