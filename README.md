@@ -19,13 +19,13 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
     * 8-core CPU
     * 64 GB RAM
 
-2.  **Singularity**: Must be installed on your system.
+2.  **Singularity**: Must be installed on your system. Below are the detailed steps for installing on an Ubuntu 22.0.4 system. For other operating systems, please refer to the official installation guide: https://docs.sylabs.io/guides/3.0/user-guide/installation.html
 
-    * **Installation on Ubuntu 22.04**:
-        You can follow the steps below to install Singularity and its dependencies. For other operating systems, please refer to the official installation guide: https://docs.sylabs.io/guides/3.0/user-guide/installation.html
+    * **Step 1: Install System Dependencies**
+        These packages are required for building and running Singularity.
 
         ```bash
-        # Update and install dependencies
+        # Update package lists and install dependencies
         sudo apt-get update
         sudo apt-get install -y \
             build-essential \
@@ -35,16 +35,59 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
             cryptsetup \
             curl wget git
         sudo apt-get install -y libfuse3-dev
+        ```
 
-        # Install the Go language environment
+    * **Step 2: Install Go Language**
+        Singularity is written in Go, so the Go toolchain is required to build it from source.
+
+        ```bash
+        # Download and install Go
         wget [https://go.dev/dl/go1.21.3.linux-amd64.tar.gz](https://go.dev/dl/go1.21.3.linux-amd64.tar.gz)
         sudo tar -C /usr/local -xzvf go1.21.3.linux-amd64.tar.gz
         rm go1.21.3.linux-amd64.tar.gz
 
-        # Configure Go environment variables
+        # Configure Go environment variables and apply them
         echo 'export GOPATH=${HOME}/go' >> ~/.bashrc
         echo 'export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin' >> ~/.bashrc
         source ~/.bashrc
+        ```
+
+    * **Step 3: Download, Build, and Install Singularity**
+        This section downloads the Singularity source code, compiles it, and installs it on the system.
+
+        ```bash
+        # Note: The script navigates to /mnt/share/software. 
+        # You can change this to your preferred directory for source code.
+        cd /mnt/share/software
+
+        # Download the Singularity CE source code
+        wget [https://github.com/sylabs/singularity/releases/download/v4.0.1/singularity-ce-4.0.1.tar.gz](https://github.com/sylabs/singularity/releases/download/v4.0.1/singularity-ce-4.0.1.tar.gz)
+        
+        # Extract the archive and clean up
+        tar -xvzf singularity-ce-4.0.1.tar.gz
+        rm singularity-ce-4.0.1.tar.gz
+        cd singularity-ce-4.0.1
+
+        # Configure the build
+        ./mconfig
+
+        # Build Singularity (this can be time-consuming)
+        cd builddir
+        make
+        
+        # Install Singularity to the system
+        sudo make install
+        ```
+
+    * **Step 4: Verify the Installation**
+        After installation, you can verify that Singularity is working correctly.
+
+        ```bash
+        # Check the installed version
+        singularity --version
+        
+        # Display help information
+        singularity -h
         ```
 
 3.  **Pipeline Files**:
