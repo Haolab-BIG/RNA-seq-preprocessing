@@ -163,7 +163,7 @@ grep 'gene_type "rRNA"' annotation.gtf > gencode.v46.rRNA.gtf
 ```bash
 # Build the main Genome Index
 mkdir -p star_genome_index
-STAR --runThreadN 16 \
+singularity exec RNA.sif STAR --runThreadN 16 \
      --runMode genomeGenerate \
      --genomeDir ./star_genome_index \
      --genomeFastaFiles GRCh38.primary_assembly.genome.fa \
@@ -172,7 +172,7 @@ STAR --runThreadN 16 \
 
 # Build the rRNA Index
 mkdir -p star_rrna_index
-STAR --runThreadN 16 \
+singularity exec RNA.sif STAR --runThreadN 16 \
      --runMode genomeGenerate \
      --genomeDir ./star_rrna_index \
      --genomeFastaFiles GRCh38.primary_assembly.genome.fa \
@@ -208,7 +208,7 @@ gunzip gencode.v46.transcripts.fa.gz
 ```bash
 # Build the Salmon Index
 mkdir -p salmon_index
-salmon index -t gencode.v46.transcripts.fa -i ./salmon_index -k 31
+singularity exec RNA.sif salmon index -t gencode.v46.transcripts.fa -i ./salmon_index -k 31
 ```
 
 ##### Create Transcript-to-Gene Map:
