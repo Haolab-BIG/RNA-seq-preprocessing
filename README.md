@@ -391,10 +391,9 @@ After the pipeline completes, the output directory will contain several files an
     'Per Base Sequence Content', 'Per Sequence GC Content', 'Per Base N Content',  
     'Sequence Length Distribution', 'Sequence Duplication Levels',  
     'Overrepresented sequences by sample', 'Top overrepresented sequences', 'Adapter Content'.
+		- **Sequence Quality Histograms**:The mean quality value across each base position in the read.
+	<img width="2222" height="616" alt="CleanShot 2025-09-13 at 16 12 48@2x" src="https://github.com/user-attachments/assets/45253b25-d3b1-4baa-8907-3f75fc564c25" />
 
-    - 'Sequence Quality Histograms': The mean quality value across each base position in the read.
-
-    <img width="2238" height="1458" alt="CleanShot 2025-09-13 at 15 40 41@2x" src="https://github.com/user-attachments/assets/d5ba3e8c-96a3-4ece-b1c1-c39fee920d91" />
 
   	- **Adapter Content**: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.
 
