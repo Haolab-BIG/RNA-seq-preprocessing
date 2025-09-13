@@ -352,7 +352,9 @@ After the pipeline completes, the output directory will contain several files an
       - **Content**: A BigWig file that represents the RNA-seq signal coverage across the genome. It shows the read density (how many reads cover each position) in a compressed format.
       - **Application**: Primarily used for visualization. You can load this file into a genome browser (e.g., IGV, UCSC Genome Browser) to see a "signal track" that shows gene expression levels visually across chromosomes. Highly expressed genes will appear as peaks.
 
+
 <img width="2386" height="534" alt="CleanShot 2025-09-13 at 15 31 03@2x" src="https://github.com/user-attachments/assets/e7fa1554-dfd0-47fb-b6ee-d16c50dba478" />
+
 
 #### Aggregate Result Files
 
@@ -380,18 +382,21 @@ After the pipeline completes, the output directory will contain several files an
   - **`multiqc_report`** : Open multiqc_report.html in a web browser to explore all sections interactively.
 
       - **General Statistics**: A combined table summarizing important metrics for each sample:
+
 	  
 <img width="2242" height="918" alt="CleanShot 2025-09-13 at 15 41 20@2x" src="https://github.com/user-attachments/assets/92cc2049-51aa-4ac6-b4f8-4c531637904a" />
 
 
       - **FastQC**: Quality-control metrics on raw and trimmed reads, including 'Sequence Counts', 'Sequence Quality Histograms', 'Per Sequence Quality Scores', 'Per Base Sequence Content', 'Per Sequence GC Content', 'Per Base N Content', 'Sequence Length Distribution', 'Sequence Duplication Levels', 'Overrepresented sequences by sample', 'Top overrepresented sequences', 'Adapter Content':
 	  
-	  Sequence Quality Histograms: The mean quality value across each base position in the read.
+	  'Sequence Quality Histograms': The mean quality value across each base position in the read.
+
 	  
 <img width="2238" height="1458" alt="CleanShot 2025-09-13 at 15 40 41@2x" src="https://github.com/user-attachments/assets/d5ba3e8c-96a3-4ece-b1c1-c39fee920d91" />
 
-	  
-	  Adapter Content: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.
+
+	  'Adapter Content': The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.
+
 	  
 <img width="2252" height="1592" alt="CleanShot 2025-09-13 at 15 39 27@2x" src="https://github.com/user-attachments/assets/38a63c94-2a50-4919-90ed-88c619e20492" />
 
