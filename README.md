@@ -3,7 +3,9 @@
 This unified RNA-seq pipeline processes raw FASTQ files through to differential-expression results, using Singularity for reproducibility and supporting batch analysis of multiple samples.
 
 ## Workflow Diagram
+
 <img width="1750" height="447" alt="pipeline" src="https://github.com/user-attachments/assets/a9d49331-4be1-4093-b955-a97db6be8083" />
+
 ## Features
 
   - **Single Command Execution**: Executes the entire workflow—from FASTQ input through sequential per-sample processing to final differential-expression analysis—with a single command.
