@@ -393,8 +393,8 @@ After the pipeline completes, the output directory will contain several files an
     'Overrepresented sequences by sample', 'Top overrepresented sequences', 'Adapter Content'.
 		- **Sequence Quality Histograms**:The mean quality value across each base position in the read.
 	<img width="2222" height="616" alt="CleanShot 2025-09-13 at 16 12 48@2x" src="https://github.com/user-attachments/assets/45253b25-d3b1-4baa-8907-3f75fc564c25" />
-		- **Adapter Content**: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.
-    <img width="2252" height="1592" alt="CleanShot 2025-09-13 at 15 39 27@2x" src="https://github.com/user-attachments/assets/38a63c94-2a50-4919-90ed-88c619e20492" />
+ 		- **Adapter Content**: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.
+<img width="2434" height="700" alt="CleanShot 2025-09-13 at 16 21 40@2x" src="https://github.com/user-attachments/assets/eb0aeb6c-28b6-408c-a0b7-1c0eb251b7fd" />
 
   	- **Cutadapt**: Reports the number of reads and bases trimmed for adapters and quality:
 
