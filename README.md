@@ -204,7 +204,7 @@ reference_data/
 
 #### Reference Files for Quant Mode
 
-The `quant` mode requires Salmon index and transcript-to-gene mapping.
+The `quant` mode requires STAR rRNA index, Salmon index and transcript-to-gene mapping.
 
 ##### Download Transcriptome FASTA:
 
