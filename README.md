@@ -393,20 +393,25 @@ After the pipeline completes, the output directory will contain several files an
     'Overrepresented sequences by sample', 'Top overrepresented sequences', 'Adapter Content'.
 		- **Sequence Quality Histograms**:The mean quality value across each base position in the read.
 	<img width="2222" height="616" alt="CleanShot 2025-09-13 at 16 12 48@2x" src="https://github.com/user-attachments/assets/45253b25-d3b1-4baa-8907-3f75fc564c25" />
+ 
  		- **Adapter Content**: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.
 <img width="2434" height="700" alt="CleanShot 2025-09-13 at 16 21 40@2x" src="https://github.com/user-attachments/assets/eb0aeb6c-28b6-408c-a0b7-1c0eb251b7fd" />
+
 
   	- **Cutadapt**: Reports the number of reads and bases trimmed for adapters and quality:
 
     <img width="2238" height="1272" alt="CleanShot 2025-09-13 at 15 38 41@2x" src="https://github.com/user-attachments/assets/b5428467-3bd7-4f86-bd68-ab236f9793a6" />
+	
 
   	- **STAR**: Alignment statistics such as total reads, uniquely mapped reads, and multi-mapping rates:
 
     <img width="1900" height="1650" alt="CleanShot 2025-09-13 at 15 37 58@2x" src="https://github.com/user-attachments/assets/4c71ed96-0137-4a29-82c9-9e0c6b7f52c6" />
+	
 
   	- **featureCounts**: Gene-level quantification results, including total counts and assignment rates:
 
     <img width="1904" height="1026" alt="CleanShot 2025-09-13 at 15 37 09@2x" src="https://github.com/user-attachments/assets/a94c1a74-1d74-422c-95ba-2397a273b10c" />
+	
 
 
 -----
