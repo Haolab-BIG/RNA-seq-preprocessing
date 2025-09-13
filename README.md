@@ -1,27 +1,32 @@
 # RNA-seq Pipeline
 
-This is a unified RNA-seq pipeline designed to run a complete analysis from raw FASTQ files to differential expression results. It leverages Singularity for reproducibility and is capable of batch processing multiple samples.
+This unified RNA-seq pipeline processes raw FASTQ files through to differential-expression results, using Singularity for reproducibility and supporting batch analysis of multiple samples.
 
 ## Workflow Diagram
-![Workflow](pipeline.png)
-
+<img width="1750" height="447" alt="pipeline" src="https://github.com/user-attachments/assets/a9d49331-4be1-4093-b955-a97db6be8083" />
 ## Features
 
--   **Single Command Execution**: Runs the entire workflow, including per-sample processing and final DEG analysis, with one command.
--   **Two Modes**: Supports both alignment-based (`align`) and alignment-free (`quant`) workflows.
-    -   **`align` mode**: STAR -> samtools -> featureCounts -> DESeq2. Generates BAM, BAI, BigWig, and count files.
-    -   **`quant` mode**: Salmon -> DESeq2. Generates transcript quantifications.
--   **Reproducible**: All software is encapsulated within a Singularity container (`RNA.sif`).
+  - **Single Command Execution**: Executes the entire workflow—from FASTQ input through sequential per-sample processing to final differential-expression analysis—with a single command.
+  - **Two Modes**: Supports both alignment-based (`align`) and alignment-free (`quant`) modes.
+      - **Alignment-based (`align`) mode**: This is the traditional and most comprehensive approach. It maps each sequencing read to a reference genome, providing precise information about where each read came from.
+
+          - **When to use**: Offers the most detailed, base-level view of the transcriptome, enabling downstream analyses beyond expression quantification. It generates files that can be visualized in genome browsers like IGV.
+
+      - **Alignment-free (`quant`) mode**: A lightweight approach that bypasses full genome alignment. It directly estimates transcript abundance by decomposing reads into k-mers and matching them to a prebuilt transcriptome index.
+
+          - **When to use**: Choose this mode if your primary goal is transcript-level or gene-level differential expression analysis. It is significantly faster and requires less computational resources.
+  - **Reproducible**: All software is encapsulated within a Singularity container (`RNA.sif`).
 
 ## Requirements
 
 1.  **Recommended System Configuration**:
-    * 8-core CPU
-    * 64 GB RAM
 
-2.  **Singularity**: Must be installed on your system. Below are the detailed steps for installing on an Ubuntu 22.0.4 system. For other operating systems, please refer to the official installation guide: https://docs.sylabs.io/guides/3.0/user-guide/installation.html
+      * 8-core CPU
+      * 80 GB RAM
 
-    * **Step 1: Install System Dependencies**
+2.  **Singularity**: Must be installed on your system. Below are the detailed steps for installing on an Ubuntu 22.0.4 system. For other operating systems, please refer to the official installation guide: [https://docs.sylabs.io/guides/3.0/user-guide/installation.html](https://docs.sylabs.io/guides/3.0/user-guide/installation.html)
+
+      * **Step 1: Install System Dependencies**
 
         ```bash
         # Update package lists and install dependencies
@@ -29,18 +34,18 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
         sudo apt-get install -y \
             build-essential \
             libseccomp-dev \
+			libfuse3-dev \
             pkg-config \
             squashfs-tools \
             cryptsetup \
             curl wget git
-        sudo apt-get install -y libfuse3-dev
         ```
 
-    * **Step 2: Install Go Language**
+      * **Step 2: Install Go Language**
 
         ```bash
         # Download and install Go
-        wget [https://go.dev/dl/go1.21.3.linux-amd64.tar.gz](https://go.dev/dl/go1.21.3.linux-amd64.tar.gz)
+        wget https://go.dev/dl/go1.21.3.linux-amd64.tar.gz
         sudo tar -C /usr/local -xzvf go1.21.3.linux-amd64.tar.gz
         rm go1.21.3.linux-amd64.tar.gz
 
@@ -50,7 +55,7 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
         source ~/.bashrc
         ```
 
-    * **Step 3: Download, Build, and Install Singularity**
+      * **Step 3: Download, Build, and Install Singularity**
 
         ```bash
         # Note: The script navigates to /mnt/share/software. 
@@ -58,8 +63,8 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
         cd /mnt/share/software
 
         # Download the Singularity CE source code
-        wget [https://github.com/sylabs/singularity/releases/download/v4.0.1/singularity-ce-4.0.1.tar.gz](https://github.com/sylabs/singularity/releases/download/v4.0.1/singularity-ce-4.0.1.tar.gz)
-        
+        wget https://github.com/sylabs/singularity/releases/download/v4.0.1/singularity-ce-4.0.1.tar.gz
+
         # Extract the archive and clean up
         tar -xvzf singularity-ce-4.0.1.tar.gz
         rm singularity-ce-4.0.1.tar.gz
@@ -71,38 +76,41 @@ This is a unified RNA-seq pipeline designed to run a complete analysis from raw 
         # Build Singularity (this can be time-consuming)
         cd builddir
         make
-        
+
         # Install Singularity to the system
         sudo make install
         ```
 
-    * **Step 4: Verify the Installation**
+      * **Step 4: Verify the Installation**
 
         ```bash
         # Check the installed version
         singularity --version
-        
+
         # Display help information
         singularity -h
         ```
 
 3.  **Pipeline Files**:
-    * `run_pipeline.sh`
-    * `RNA.sif` (The Singularity container)
+
+      * `run_pipeline.sh`
+      * `RNA.sif` (The Singularity container)
 
 4.  **Reference Data**: A directory containing all necessary reference files (e.g., STAR indices, Salmon index, GTF annotation, etc.).
 
 ## Setup
 
-### 1. Prepare the Sample Sheet
+### 1\. Prepare the Sample Sheet
 
 This is the most critical input file. Create a CSV file named `samplesheet.csv`.
 
--   `sample`: A unique identifier for the sample (e.g., `Control_Rep1`). This name will be used for output subdirectories.
--   `condition`: The experimental group for the sample (e.g., `Control`, `Treated`). This is used for the DESeq2 design.
--   `fastq1_path`: The **absolute path** to the Read 1 FASTQ file.
--   `fastq2_path`: The **absolute path** to the Read 2 FASTQ file.
+  - `sample`: A unique identifier for the sample (e.g., `Control_Rep1`). This name will be used for output subdirectories.
+  - `condition`: The experimental group for the sample (e.g., `Control`, `Treated`). This is used for the DESeq2 design.
+  - `fastq1_path`: The **absolute path** to the Read 1 FASTQ file.
+  - `fastq2_path`: The **absolute path** to the Read 2 FASTQ file.
 
+**Note on Sequencing Type:**
+This pipeline supports both paired-end (PE) and single-end (SE) sequencing data. The example below shows the format for paired-end data. If you have single-end data, simply leave the fastq2_path column empty for the corresponding samples.
 **Example `samplesheet.csv`:**
 
 ```csv
@@ -113,7 +121,7 @@ Treated_Rep1,Treated,/path/to/data/Treated_Rep1_R1.fastq.gz,/path/to/data/Treate
 Treated_Rep2,Treated,/path/to/data/Treated_Rep2_R1.fastq.gz,/path/to/data/Treated_Rep2_R2.fastq.gz
 ```
 
-### 2. Prepare the Reference Genome
+### 2\. Prepare the Reference Genome
 
 The pipeline requires several pre-built reference files. Below are the steps to generate them for the human hg38 genome using GENCODE annotations.
 
@@ -163,21 +171,21 @@ grep 'gene_type "rRNA"' annotation.gtf > gencode.v46.rRNA.gtf
 ```bash
 # Build the main Genome Index
 mkdir -p star_genome_index
-singularity exec RNA.sif STAR --runThreadN 16 \
+singularity exec RNA.sif STAR --runThreadN 8 \
      --runMode genomeGenerate \
      --genomeDir ./star_genome_index \
      --genomeFastaFiles GRCh38.primary_assembly.genome.fa \
      --sjdbGTFfile annotation.gtf \
-     --sjdbOverhang 100
+     --sjdbOverhang 149
 
 # Build the rRNA Index
 mkdir -p star_rrna_index
-singularity exec RNA.sif STAR --runThreadN 16 \
+singularity exec RNA.sif STAR --runThreadN 8 \
      --runMode genomeGenerate \
      --genomeDir ./star_rrna_index \
      --genomeFastaFiles GRCh38.primary_assembly.genome.fa \
      --sjdbGTFfile gencode.v46.rRNA.gtf \
-     --sjdbOverhang 100
+     --sjdbOverhang 149
 ```
 
 The final reference structure for `align` mode:
@@ -215,12 +223,12 @@ singularity exec RNA.sif salmon index -t gencode.v46.transcripts.fa -i ./salmon_
 
 ```bash
 mkdir -p star_rrna_index
-singularity exec RNA.sif STAR --runThreadN 16 \
+singularity exec RNA.sif STAR --runThreadN 8 \
      --runMode genomeGenerate \
      --genomeDir ./star_rrna_index \
      --genomeFastaFiles GRCh38.primary_assembly.genome.fa \
      --sjdbGTFfile gencode.v46.rRNA.gtf \
-     --sjdbOverhang 100
+     --sjdbOverhang 149
 ```
 
 ##### Create Transcript-to-Gene Map:
@@ -252,14 +260,14 @@ Execute the pipeline using a single command, providing the sample sheet, output 
 
 ### Command Parameters
 
-- `-s`: Path to the sample sheet CSV file (required)
-- `-o`: Output directory path where results will be saved (required)
-- `-r`: Reference data directory containing indices and annotation files (required)
-- `-m`: Analysis mode, either `align` or `quant` (required)
-- `-c`: Path to the RNA.sif Singularity container file (required)
-- `-L`: Control condition name for differential expression analysis (optional,If unset, DESeq2 uses alphabetical order)
-- `-t`: Number of threads to use for processing (optional, default: 8)
-- `-g`: Path to transcript-to-gene mapping file (required only for `quant` mode)
+  - `-s`: Path to the sample sheet CSV file (required)
+  - `-o`: Output directory path where results will be saved (required)
+  - `-r`: Reference data directory containing indices and annotation files (required)
+  - `-m`: Analysis mode, either `align` or `quant` (required)
+  - `-c`: Path to the RNA.sif Singularity container file (required)
+  - `-L`: Control condition name for differential expression analysis (optional,If unset, DESeq2 uses alphabetical order)
+  - `-t`: Number of threads to use for processing (optional, default: 8)
+  - `-g`: Path to transcript-to-gene mapping file (required only for `quant` mode)
 
 ### Example Commands
 
@@ -292,9 +300,11 @@ Note the additional `-g` flag, which is required for this mode to provide the tr
   -t 8
 ```
 
-## Output Structure
+## Output Structure and Interpretation
 
-After the pipeline completes, the output directory will be organized differently depending on the mode used.
+After the pipeline completes, the output directory will contain several files and directories. Below is a detailed explanation of what each file is and how it can be used.
+
+-----
 
 ### Align Mode Output
 
@@ -303,45 +313,130 @@ After the pipeline completes, the output directory will be organized differently
 ├── Control_Rep1/
 │   ├── Control_Rep1.dedup.bam         # Final processed BAM file
 │   ├── Control_Rep1.dedup.bam.bai     # BAM index file
-│   ├── Control_Rep1.bw                # BigWig signal track
+│   └── Control_Rep1.bw                # BigWig signal track
 ├── Control_Rep2/
-│   ├── Control_Rep2.dedup.bam
-│   ├── Control_Rep2.dedup.bam.bai
-│   ├── Control_Rep2.bw
+│   ├── Control_Rep2.dedup.bam         # Final processed BAM file
+│   ├── Control_Rep2.dedup.bam.bai     # BAM index file
+│   └── Control_Rep2.bw                # BigWig signal track
 ├── Treated_Rep1/
-│   ├── Treated_Rep1.dedup.bam
-│   ├── Treated_Rep1.dedup.bam.bai
-│   ├── Treated_Rep1.bw
+│   ├── Treated_Rep1.dedup.bam         # Final processed BAM file
+│   ├── Treated_Rep1.dedup.bam.bai     # BAM index file
+│   └── Treated_Rep1.bw                # BigWig signal track
 ├── Treated_Rep2/
-│   ├── Treated_Rep2.dedup.bam
-│   ├── Treated_Rep2.dedup.bam.bai
-│   ├── Treated_Rep2.bw
+│   ├── Treated_Rep2.dedup.bam         # Final processed BAM file
+│   ├── Treated_Rep2.dedup.bam.bai     # BAM index file
+│   └── Treated_Rep2.bw                # BigWig signal track
 ├── multiqc_report/
 │   └── multiqc_report.html            # Aggregated QC report for all samples
 ├── deg_results.txt                    # Differential expression gene list from DESeq2
-└── normalized_counts.csv              # Normalized counts matrix from DESeq2
+└── normalized_counts.txt              # Normalized counts matrix from DESeq2
 ```
 
+#### Per-Sample Files (`Control_Rep1/`)
+
+  - **`*.dedup.bam`**
+
+      - **Content**: This is the main alignment file in Binary Alignment Map (BAM) format. It contains all the sequencing reads and their mapping coordinates on the reference genome. This version has had duplicate reads (PCR duplicates) removed.
+      - **Application**: It's the primary evidence for read alignment and can be used for detailed inspection in genome browsers or for downstream analyses.
+
+  - **`*.dedup.bam.bai`**
+
+      - **Content**: This is the index file for the BAM file.
+      - **Application**: It allows for fast random access to the BAM file, which is essential for visualization software (like IGV) to quickly load and display alignments for a specific genomic region without reading the entire file.
+
+  - **`*.bw`**
+
+      - **Content**: A BigWig file that represents the RNA-seq signal coverage across the genome. It shows the read density (how many reads cover each position) in a compressed format.
+      - **Application**: Primarily used for visualization. You can load this file into a genome browser (e.g., IGV, UCSC Genome Browser) to see a "signal track" that shows gene expression levels visually across chromosomes. Highly expressed genes will appear as peaks.
+
+<img width="2386" height="534" alt="CleanShot 2025-09-13 at 15 31 03@2x" src="https://github.com/user-attachments/assets/e7fa1554-dfd0-47fb-b6ee-d16c50dba478" />
+
+#### Aggregate Result Files
+
+  - **`deg_results.txt`**
+
+      - **Content**: A tab-separated text file containing the results of the differential expression analysis from DESeq2. Each row corresponds to a gene, and columns typically include:
+          - `baseMean`: Average normalized count across all samples.
+          - `log2FoldChange`: The logarithm (base 2) of the fold change between the 'Treated' and 'Control' conditions. A positive value means the gene is upregulated in the 'Treated' group; a negative value means it is downregulated.
+          - `lfcSE`: The standard error of the `log2FoldChange` estimate.
+          - `stat`: The Wald statistic.
+          - `pvalue`: The raw p-value for the statistical test.
+          - `padj`: The p-value adjusted for multiple testing (e.g., using Benjamini-Hochberg correction).
+      - **Application**: This is the final result file. You can filter this file based on `padj` (e.g., `padj < 0.05`) and `log2FoldChange` thresholds to obtain a list of statistically significant differentially expressed genes.
+
+  - **`normalized_counts.txt`**
+
+      - **Content**: A tab-separated text file containing a matrix of normalized expression counts. Rows represent genes, and columns represent samples. These counts are adjusted for differences in sequencing depth between libraries, making them comparable across samples.
+          - `row names`: Gene name.
+          - `Control_Rep1`: The normalized count for Control_Rep1.
+          - `Control_Rep2`: The normalized count for Control_Rep2.
+          - `Treated_Rep1`: The normalized count for Treated_Rep1.
+          - `Treated_Rep2`: The normalized count for Treated_Rep2.
+      - **Application**: This matrix is essential for downstream analyses and visualizations beyond simple DEG lists. It can be used as input for generating heatmaps, performing principal component analysis (PCA) to check for sample clustering, or conducting gene set enrichment analysis.
+
+  - **`multiqc_report`** : Open multiqc_report.html in a web browser to explore all sections interactively.
+
+      - **General Statistics**: A combined table summarizing important metrics for each sample:
+	  
+	  *\<p align="center"\> [qc report photo \</p\>*
+
+      - **FastQC**: Quality-control metrics on raw and trimmed reads, including 'Sequence Counts', 'Sequence Quality Histograms', 'Per Sequence Quality Scores', 'Per Base Sequence Content', 'Per Sequence GC Content', 'Per Base N Content', 'Sequence Length Distribution', 'Sequence Duplication Levels', 'Overrepresented sequences by sample', 'Top overrepresented sequences', 'Adapter Content':
+	  
+	  Sequence Quality Histograms: The mean quality value across each base position in the read.
+	  
+	  *\<p align="center"\> [qc report photo \</p\>*
+	  
+	  Adapter Content: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.
+	  
+	  *\<p align="center"\> [qc report photo \</p\>*
+	  
+      - **Cutadapt**: Reports the number of reads and bases trimmed for adapters and quality:
+	  
+	  *\<p align="center"\> [qc report photo \</p\>*
+	  
+      - **STAR**: Alignment statistics such as total reads, uniquely mapped reads, and multi-mapping rates:
+	  
+	  *\<p align="center"\> [qc report photo \</p\>*  
+	  
+      - **featureCounts**: Gene-level quantification results, including total counts and assignment rates:
+	  
+	  *\<p align="center"\> [qc report photo \</p\>*  
+	  
+      - **Application**: This is the first file you should check to assess the overall quality of your sequencing data and the alignment process. It helps identify problematic samples (e.g., low alignment rate, high duplication) early on.
+
+-----
+
 ### Quant Mode Output
+
+The output is more concise as it does not generate per-sample alignment files.
 
 ```
 ./project_results/
 ├── multiqc_report/
 │   └── multiqc_report.html            # Aggregated QC report for all samples
 ├── deg_results.txt                    # Differential expression gene list from DESeq2
-└── normalized_counts.csv              # Normalized counts matrix from DESeq2
+└── normalized_counts.txt              # Normalized counts matrix from DESeq2
 ```
+
+  - **`deg_results.txt`**: Same as in `align` mode. It lists the differentially expressed genes based on transcript-level quantifications that have been summarized to the gene level.
+  - **`normalized_counts.txt`**: Same as in `align` mode. This matrix of normalized counts is derived from Salmon's quantifications and is ready for downstream visualization and analysis like PCA and heatmap generation.
+  - **`multiqc_report`** : Open multiqc_report.html in a web browser to explore all sections interactively. (Same as in `align` mode, but without STAR alignment statistics, instead, Salmon statistics are available.)
+ 
+       - **Salmon**: Fragment length distribution – Shows the estimated insert-size (fragment length) distribution of the sequencing library:
+	  This reflects the typical distance between read pairs after library preparation and is important for accurate transcript abundance estimation. Abnormal distributions may indicate library prep issues or unexpected sample characteristics.
+
+	  *\<p align="center"\> [qc report photo \</p\>*  
 
 ## Video Tutorials
 
 ### Align Mode Tutorial
+
 Watch this video tutorial to see a complete walkthrough of running the pipeline in `align` mode:
 
-https://github.com/user-attachments/assets/a0f09a6c-deb9-4906-a15a-fe1e8c0d5a59
+[https://github.com/user-attachments/assets/a0f09a6c-deb9-4906-a15a-fe1e8c0d5a59](https://github.com/user-attachments/assets/a0f09a6c-deb9-4906-a15a-fe1e8c0d5a59)
 
-### Quant Mode Tutorial  
+### Quant Mode Tutorial
+
 Watch this video tutorial to see a complete walkthrough of running the pipeline in `quant` mode:
 
-https://github.com/user-attachments/assets/e3e15f46-5251-450c-a166-ad40f19dd555
-
-
+[https://github.com/user-attachments/assets/e3e15f46-5251-450c-a166-ad40f19dd555](https://github.com/user-attachments/assets/e3e15f46-5251-450c-a166-ad40f19dd555)
