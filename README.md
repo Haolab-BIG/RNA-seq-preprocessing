@@ -435,7 +435,6 @@ The output is more concise as it does not generate per-sample alignment files.
  
        - **Salmon**: Fragment length distribution – Shows the estimated insert-size (fragment length) distribution of the sequencing library:
 	  This reflects the typical distance between read pairs after library preparation and is important for accurate transcript abundance estimation. Abnormal distributions may indicate library prep issues or unexpected sample characteristics.
-
 		<img width="1772" height="1292" alt="CleanShot 2025-09-13 at 15 36 04@2x" src="https://github.com/user-attachments/assets/087233e4-380a-4a1d-a12c-de70db7c06c8" />
 
 
