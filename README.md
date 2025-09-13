@@ -382,38 +382,35 @@ After the pipeline completes, the output directory will contain several files an
   - **`multiqc_report`** : Open multiqc_report.html in a web browser to explore all sections interactively.
   - **Application**: This is the first file you should check to assess the overall quality of your sequencing data and the alignment process. It helps identify problematic samples (e.g., low alignment rate, high duplication) early on.
 
-- **General Statistics**: A combined table summarizing important metrics for each sample:
+  - **General Statistics**: A combined table summarizing important metrics for each sample:
 
-	  
-<img width="2242" height="918" alt="CleanShot 2025-09-13 at 15 41 20@2x" src="https://github.com/user-attachments/assets/92cc2049-51aa-4ac6-b4f8-4c531637904a" />
+    <img width="2242" height="918" alt="CleanShot 2025-09-13 at 15 41 20@2x" src="https://github.com/user-attachments/assets/92cc2049-51aa-4ac6-b4f8-4c531637904a" />
 
-- **FastQC**: Quality-control metrics on raw and trimmed reads, including 'Sequence Counts', 'Sequence Quality Histograms', 'Per Sequence Quality Scores', 'Per Base Sequence Content', 'Per Sequence GC Content', 'Per Base N Content', 'Sequence Length Distribution', 'Sequence Duplication Levels', 'Overrepresented sequences by sample', 'Top overrepresented sequences', 'Adapter Content':
-	  
-	  'Sequence Quality Histograms': The mean quality value across each base position in the read.
+  - **FastQC**: Quality-control metrics on raw and trimmed reads, including  
+    'Sequence Counts', 'Sequence Quality Histograms', 'Per Sequence Quality Scores',  
+    'Per Base Sequence Content', 'Per Sequence GC Content', 'Per Base N Content',  
+    'Sequence Length Distribution', 'Sequence Duplication Levels',  
+    'Overrepresented sequences by sample', 'Top overrepresented sequences', 'Adapter Content'.
 
-	  
-<img width="2238" height="1458" alt="CleanShot 2025-09-13 at 15 40 41@2x" src="https://github.com/user-attachments/assets/d5ba3e8c-96a3-4ece-b1c1-c39fee920d91" />
+    - 'Sequence Quality Histograms': The mean quality value across each base position in the read.
 
+    <img width="2238" height="1458" alt="CleanShot 2025-09-13 at 15 40 41@2x" src="https://github.com/user-attachments/assets/d5ba3e8c-96a3-4ece-b1c1-c39fee920d91" />
 
-- **Adapter Content**: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.
+  - **Adapter Content**: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.
 
-	  
-<img width="2252" height="1592" alt="CleanShot 2025-09-13 at 15 39 27@2x" src="https://github.com/user-attachments/assets/38a63c94-2a50-4919-90ed-88c619e20492" />
+    <img width="2252" height="1592" alt="CleanShot 2025-09-13 at 15 39 27@2x" src="https://github.com/user-attachments/assets/38a63c94-2a50-4919-90ed-88c619e20492" />
 
-	  
-- **Cutadapt**: Reports the number of reads and bases trimmed for adapters and quality:
-	  
-<img width="2238" height="1272" alt="CleanShot 2025-09-13 at 15 38 41@2x" src="https://github.com/user-attachments/assets/b5428467-3bd7-4f86-bd68-ab236f9793a6" />
+  - **Cutadapt**: Reports the number of reads and bases trimmed for adapters and quality:
 
-	  
-- **STAR**: Alignment statistics such as total reads, uniquely mapped reads, and multi-mapping rates:
-	  
-<img width="1900" height="1650" alt="CleanShot 2025-09-13 at 15 37 58@2x" src="https://github.com/user-attachments/assets/4c71ed96-0137-4a29-82c9-9e0c6b7f52c6" />
+    <img width="2238" height="1272" alt="CleanShot 2025-09-13 at 15 38 41@2x" src="https://github.com/user-attachments/assets/b5428467-3bd7-4f86-bd68-ab236f9793a6" />
 
-	  
-- **featureCounts**: Gene-level quantification results, including total counts and assignment rates:
-	  
-<img width="1904" height="1026" alt="CleanShot 2025-09-13 at 15 37 09@2x" src="https://github.com/user-attachments/assets/a94c1a74-1d74-422c-95ba-2397a273b10c" />
+  - **STAR**: Alignment statistics such as total reads, uniquely mapped reads, and multi-mapping rates:
+
+    <img width="1900" height="1650" alt="CleanShot 2025-09-13 at 15 37 58@2x" src="https://github.com/user-attachments/assets/4c71ed96-0137-4a29-82c9-9e0c6b7f52c6" />
+
+  - **featureCounts**: Gene-level quantification results, including total counts and assignment rates:
+
+    <img width="1904" height="1026" alt="CleanShot 2025-09-13 at 15 37 09@2x" src="https://github.com/user-attachments/assets/a94c1a74-1d74-422c-95ba-2397a273b10c" />
 
 
 -----
