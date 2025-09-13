@@ -112,7 +112,7 @@ This is the most critical input file. Create a CSV file named `samplesheet.csv`.
   - `fastq2_path`: The **absolute path** to the Read 2 FASTQ file.
 
 **Note on Sequencing Type:**
-This pipeline supports both paired-end (PE) and single-end (SE) sequencing data. The example below shows the format for paired-end data. If you have single-end data, simply remove the fastq2_path column.
+This pipeline supports both paired-end (PE) and single-end (SE) sequencing data. The example below shows the format for paired-end data. If you have single-end data, simply remove the `fastq2_path` column.
 
 **Example `samplesheet.csv`:**
 
