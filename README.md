@@ -12,7 +12,7 @@ This unified RNA-seq pipeline processes raw FASTQ files through to differential-
   - **Two Modes**: Supports both alignment-based (`align`) and alignment-free (`quant`) modes.
       - **Alignment-based (`align`) mode**: This is the traditional and most comprehensive approach. It maps each sequencing read to a reference genome, providing precise information about where each read came from.
 
-          - **When to use**: Offers the most detailed, base-level view of the transcriptome, enabling downstream analyses beyond expression quantification. It generates files that can be visualized in genome browsers like IGV.
+          - **When to use**: Offers the most detailed, base-level view of the transcriptome, enabling downstream analyses beyond expression quantification. It generates BAM and BIGWIG files that can be visualized in genome browsers like IGV.
 
       - **Alignment-free (`quant`) mode**: A lightweight approach that bypasses full genome alignment. It directly estimates transcript abundance by decomposing reads into k-mers and matching them to a prebuilt transcriptome index.
 
@@ -381,35 +381,35 @@ After the pipeline completes, the output directory will contain several files an
 
   - **`multiqc_report`**: Open `multiqc_report.html` in a web browser to explore all sections interactively.
 
-  - **Application**: This is the first file you should check to assess the overall quality of your sequencing data and the alignment process. It helps identify problematic samples (e.g., low alignment rate, high duplication) early on.
+  	- **Application**: This is the first file you should check to assess the overall quality of your sequencing data and the alignment process. It helps identify problematic samples (e.g., low alignment rate, high duplication) early on.
 
-    - **General Statistics**: A combined table summarizing important metrics for each sample:
+    	- **General Statistics**: A combined table summarizing important metrics for each sample:
 
       <img width="2242" height="918" alt="CleanShot 2025-09-13 at 15 41 20@2x" src="https://github.com/user-attachments/assets/92cc2049-51aa-4ac6-b4f8-4c531637904a" />
 
-    - **FastQC**: Quality-control metrics on raw and trimmed reads, including  
+    	- **FastQC**: Quality-control metrics on raw and trimmed reads, including  
       'Sequence Counts', 'Sequence Quality Histograms', 'Per Sequence Quality Scores',  
       'Per Base Sequence Content', 'Per Sequence GC Content', 'Per Base N Content',  
       'Sequence Length Distribution', 'Sequence Duplication Levels',  
       'Overrepresented sequences by sample', 'Top overrepresented sequences', 'Adapter Content'.
 
-      - **Sequence Quality Histograms**: The mean quality value across each base position in the read.  
+      	- **Sequence Quality Histograms**: The mean quality value across each base position in the read.  
 
         <img width="2222" height="616" alt="CleanShot 2025-09-13 at 16 12 48@2x" src="https://github.com/user-attachments/assets/45253b25-d3b1-4baa-8907-3f75fc564c25" />
 
-      - **Adapter Content**: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.  
+      	- **Adapter Content**: The cumulative percentage count of the proportion of your library which has seen each of the adapter sequences at each position.  
 
         <img width="2434" height="700" alt="CleanShot 2025-09-13 at 16 21 40@2x" src="https://github.com/user-attachments/assets/eb0aeb6c-28b6-408c-a0b7-1c0eb251b7fd" />
 
-    - **Cutadapt**: Reports the number of reads and bases trimmed for adapters and quality:
+    	- **Cutadapt**: Reports the number of reads and bases trimmed for adapters and quality:
 
       <img width="2238" height="1272" alt="CleanShot 2025-09-13 at 15 38 41@2x" src="https://github.com/user-attachments/assets/b5428467-3bd7-4f86-bd68-ab236f9793a6" />
 
-    - **STAR**: Alignment statistics such as total reads, uniquely mapped reads, and multi-mapping rates:
+    	- **STAR**: Alignment statistics such as total reads, uniquely mapped reads, and multi-mapping rates:
 
       <img width="1900" height="1650" alt="CleanShot 2025-09-13 at 15 37 58@2x" src="https://github.com/user-attachments/assets/4c71ed96-0137-4a29-82c9-9e0c6b7f52c6" />
 
-    - **featureCounts**: Gene-level quantification results, including total counts and assignment rates:
+    	- **featureCounts**: Gene-level quantification results, including total counts and assignment rates:
 
       <img width="1904" height="1026" alt="CleanShot 2025-09-13 at 15 37 09@2x" src="https://github.com/user-attachments/assets/a94c1a74-1d74-422c-95ba-2397a273b10c" />
 	
@@ -444,10 +444,18 @@ The output is more concise as it does not generate per-sample alignment files.
 
 Watch this video tutorial to see a complete walkthrough of running the pipeline in `align` mode:
 
-[https://github.com/user-attachments/assets/a0f09a6c-deb9-4906-a15a-fe1e8c0d5a59](https://github.com/user-attachments/assets/a0f09a6c-deb9-4906-a15a-fe1e8c0d5a59)
+
+
+https://github.com/user-attachments/assets/2009351c-23d9-4d23-b56d-2b6f6538d318
+
+
 
 ### Quant Mode Tutorial
 
 Watch this video tutorial to see a complete walkthrough of running the pipeline in `quant` mode:
 
-[https://github.com/user-attachments/assets/e3e15f46-5251-450c-a166-ad40f19dd555](https://github.com/user-attachments/assets/e3e15f46-5251-450c-a166-ad40f19dd555)
+
+
+https://github.com/user-attachments/assets/774937f6-2990-4176-a879-141dd138d99d
+
+
